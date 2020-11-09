@@ -1,0 +1,12 @@
+Unable to connect to the server: oidc: failed to query metadata endpoint 403 Forbidden: "<#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# .tfvars files
+*.tfvars
+
+# dot files
+.*
