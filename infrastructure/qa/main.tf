@@ -41,6 +41,11 @@ resource "aws_s3_bucket" "input_bucket" {
       # Delete objects older than 14 days.
       days = 1
     }
+    versioning {
+      enabled    = true
+      mfa_delete = true
+    }
+
   }
 
   tags = {

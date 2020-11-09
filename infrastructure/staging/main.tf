@@ -38,9 +38,14 @@ resource "aws_s3_bucket" "input_bucket" {
     abort_incomplete_multipart_upload_days = "1"
 
     expiration {
-      # Delete objects older than 1 days.
+      # Delete objects older than 14 days.
       days = 1
     }
+    versioning {
+      enabled    = true
+      mfa_delete = true
+    }
+
   }
 
   tags = {
