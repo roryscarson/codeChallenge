@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fileMaker-service
+  name: filemaker-service
 spec:
   selector:
-    app: fileMaker
+    app: filemaker
   ports:
   - protocol: "TCP"
     port: 6000
@@ -15,31 +15,37 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fileMaker
+  name: filemaker
 spec:
   selector:
     matchLabels:
-      app: fileMaker
+      app: filemaker
   replicas: 1
   template:
     metadata:
       labels:
-        app: fileMaker
+        app: filemaker
     spec:
       containers:
-      - name: fileMaker
-        image: fileMaker:latest
-        imagePullPolicy: Never
+      - name: filemaker
+        image: filemaker:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
-      env:
-        - name: ENVIRONMENT
-          value: "staging"
-        - name: BUCKET_NAME
-          value: "rcarson-inra-test"
-        - name: AWS_REGION
-          value: "eu-west-1"
-        - name: ACCESS_KEY
-          value: ""
-        - name: SECRET_ACCESS_KEY
-          value: ""
+        env:
+          - name: ENVIRONMENT
+            value: "staging"
+          - name: BUCKET_NAME
+            value: "rcarson-inra-test"
+          - name: AWS_REGION
+            value: "eu-west-1"
+          - name: ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: codechallenge-secrets
+                key: access_key
+          - name: SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: codechallenge-secrets
+                key: secret_access_key
