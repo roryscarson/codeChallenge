@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fileMaker-service
+spec:
+  selector:
+    app: fileMaker
+  ports:
+  - protocol: "TCP"
+    port: 6000
+    targetPort: 5000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fileMaker
+spec:
+  selector:
+    matchLabels:
+      app: fileMaker
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fileMaker
+    spec:
+      containers:
+      - name: fileMaker
+        image: fileMaker:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+      env:
+        - name: ENVIRONMENT
+          value: "staging"
+        - name: BUCKET_NAME
+          value: "rcarson-inra-test"
+        - name: AWS_REGION
+          value: "eu-west-1"
+        - name: ACCESS_KEY
+          value: ""
+        - name: SECRET_ACCESS_KEY
+          value: ""
